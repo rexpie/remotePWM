@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <script src="socketio.js"></script>
+        <script>
+            var socket = io('http://192.168.2.5:9169');
+        </script>
+
+        <script>
+
+            function handleOrientation(event) {
+                socket.emit('orientation', {
+                    alpha: event.alpha,
+                    beta: event.beta,
+                    gamma: event.gamma
+                });
+            }
+
+            window.addEventListener('deviceorientation', handleOrientation, true);
+
+            function handleMotion(event) {
+                socket.emit('motion', {
+                    x: event.acceleration.x,
+                    y: event.acceleration.y,
+                    z: event.acceleration.z
+                });
+            }
+            window.addEventListener('devicemotion', handleMotion, true);
+        </script>
+    </head>
+    <body>
+        <img src="qr.png"></img>
+
+        <pre id="output"></pre>
+    </body>

@@ -1,0 +1,16 @@
+{
+  "name": "tmp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+	"run": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "johnny-five": "^0.9.53",
+    "qr-image": "^3.1.0",
+    "socket.io": "^1.4.6"
+  }
+}
