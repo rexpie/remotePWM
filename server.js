@@ -35,12 +35,22 @@ Object.keys(ifaces).forEach(function (ifname) {
   });
 });
 
-var code = qr.image(address + ':' + port + '/mobile.html', {
+var code = qr.image('http://' + address + ':' + port + '/mobile.html', {
   type: 'png'
 });
 var output = fs.createWriteStream('qr.png');
 code.pipe(output);
 
+fs.readFile('mobile.src', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  var result = data.replace(/localhost/g, address);
+
+  fs.writeFile('mobile.html', result, 'utf8', function (err) {
+     if (err) return console.log(err);
+  });
+});
 
 var led;
 board.on("ready", function () {
@@ -74,7 +84,7 @@ function handler(req, res) {
 
 io.on('connection', function (socket) {
   socket.on('orientation', function (data) {
-    // console.log(data);
+    console.log(data);
     if (led) {
       led.brightness(Math.floor(Math.abs(Math.sin(data.beta / 180 * 3.1415926)) * 255));
     }
@@ -82,7 +92,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('motion', function (data) {
-    console.log(data);
+    // console.log(data);
 
     // io.emit('control', data);
   });
